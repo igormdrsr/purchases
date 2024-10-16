@@ -40,13 +40,21 @@ function App() {
     setInputValue("");
   }
 
-  function handleItemClick(item) {
-    // const result = items.map(item => {
-    //   if() {
+  function handleItemClick(clickedItem) {
+    setItems(previous => {
+      const updatedItems = previous.map(item => {
+        if(item.id === clickedItem.id) {
+          return {
+            ...item,
+            completed: !item.completed
+          }
+        }
+        
+        return item;
+      })
 
-    //   }
-    // })
-    console.log(item);
+      return updatedItems;
+    })
   }
 
   return (
@@ -71,9 +79,6 @@ function App() {
             Add
           </button>
         </form>
-        {/* {!inputValue.trim() && (
-            <p className="text-rose-600 text-sm font-semibold">Você não pode submeter um item somente com espaços em branco!</p>
-          )} */}
         <ol className="mt-2 flex flex-col gap-1 bg-gray-200 p-2 rounded">
           {items.map((item) => {
             return (
@@ -81,7 +86,7 @@ function App() {
                 key={item.id}
                 className={`${
                   item.completed ? "bg-blue-600 text-white" : "bg-white"
-                } p-2 rounded cursor-pointer`}
+                } p-2 rounded cursor-pointer transition-colors`}
                 onClick={() => handleItemClick(item)}
               >
                 {item.title}
